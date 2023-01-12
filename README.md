@@ -1,4 +1,4 @@
-# MQTT Example - AWS
+# MQTT Example - HiveMQ
 
 > MQTT Example connecting to HiveMQ's Test Broker
 
