@@ -4,6 +4,7 @@
 // MQTT Server
 const char mqtt_server[100] = "broker.mqttdashboard.com";
 
+
 // MQTT Port
 const int mqtt_port = 1883;
 
@@ -11,10 +12,10 @@ const int mqtt_port = 1883;
 const char clientID[20] = "Kellen_ESP32";
 
 // Subscribe Topics
-const char sub_topic_1[100] = "Kellen_esp32/output";
+#define AWS_IOT_SUBSCRIBE_TOPIC "esp32/sub"
 
 // Publish Topics
-const char pub_topic_1[100] = "Kellen_esp32/test";
+#define AWS_IOT_PUBLISH_TOPIC   "esp32/pub"
 
 // Message for Publish Topics
 const char msg_topic_1[100] = "Button Pressed";

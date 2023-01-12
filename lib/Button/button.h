@@ -2,8 +2,7 @@
 #define _Button_H_
 
 #include <Arduino.h>
-#include <PubSubClient.h>
-#include <mqtt.h>
+#include "../MQTT/mqtt.h"
 #include "pin_definitions.h"
 
 // Variables

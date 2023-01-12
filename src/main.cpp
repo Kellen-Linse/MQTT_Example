@@ -1,8 +1,8 @@
 #include <Arduino.h>
-#include <mqtt.h>
 #include <button.h>
 #include <wifi_setup.h>
 #include "pin_definitions.h"
+#include "../lib/MQTT/mqtt.h"
 
 
 void setup() {

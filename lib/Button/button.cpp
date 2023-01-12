@@ -19,7 +19,7 @@ void buttonLoop(){
       if(timeNow - lastTime > interval){
         lastTime = millis();
         Serial.println("Btn 1 pressed");
-        client.publish(pub_topic_1, msg_topic_1);
+        publishMessage();
         buttonPressed = true;
       }
     }   
