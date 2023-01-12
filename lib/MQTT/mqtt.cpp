@@ -1,18 +1,13 @@
 #include "mqtt.h"
 
 // Variables
-  long lastMsg = 0;
-  char msg[50];
-  int value = 0;
-
-  WiFiClientSecure net = WiFiClientSecure(); //
-  MQTTClient client = MQTTClient(256); //
+  WiFiClientSecure net = WiFiClientSecure();
+  MQTTClient client = MQTTClient(256);
 
 // Functions 
 
 void mqttSetup(){
-    // MQTT
-    connectAWS();
+  connectAWS();
 }
 
 void mqttLoop(){
@@ -27,7 +22,7 @@ void publishMessage(){
   doc["time"] = millis();
   doc["Message"] = "Hello From ESP32!";
   char jsonBuffer[512];
-  serializeJson(doc, jsonBuffer); // print to client
+  serializeJson(doc, jsonBuffer);
   Serial.print("PUBLISHING: ");
   Serial.println(jsonBuffer);
   
@@ -35,11 +30,25 @@ void publishMessage(){
 }
 
 void messageHandler(String &topic, String &payload) {
-  Serial.println("incoming: " + topic + " - " + payload);
+  Serial.println("INCOMING: " + topic + " - " + payload);
 
-//  StaticJsonDocument<200> doc;
-//  deserializeJson(doc, payload);
-//  const char* message = doc["message"];
+  StaticJsonDocument<200> doc;
+  deserializeJson(doc, payload);
+  const char* message = doc["message"];
+
+  // If a message is received on the AWS_IOT_SUBSCRIBE_TOPIC topic, 
+  // this will check if the message is either "on" or "off" 
+  // changing the output state according to the message.
+  if (topic == AWS_IOT_SUBSCRIBE_TOPIC) {
+    if(strcmp(message, "on") == 0){
+      Serial.println("Turning LED on");
+      digitalWrite(ledPin, HIGH);
+    }
+    else if(strcmp(message, "off") == 0){
+      Serial.println("Turning LED off");
+      digitalWrite(ledPin, LOW);
+    }
+  }
 }
 
 // 
@@ -76,8 +85,7 @@ void connectAWS(){
 
 void reconnect() {
   // Attempt to connect
-  Serial.print("Attempting MQTT connection...\n");
-  Serial.print("Connecting to AWS IOT\n");
+  Serial.print("Attempting Reconnection to AWS IOT...\n");
 
   while (!client.connect(THINGNAME)) {
     Serial.print(".");
@@ -92,34 +100,5 @@ void reconnect() {
 
   // Subscribe to a topic
   client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC);
-  Serial.println("AWS IoT Connected!");
+  Serial.println("AWS IoT Reconnected!");
 }
-
-
-// ========= unused =========
-
-// void callback(char* topic, byte* message, unsigned int length) {
-//   Serial.print("Message arrived on topic: ");
-//   Serial.print(topic);
-//   Serial.print(". Message: ");
-//   String messageTemp;
-  
-//   for (int i = 0; i < length; i++) {
-//     Serial.print((char)message[i]);
-//     messageTemp += (char)message[i];
-//   }
-//   Serial.println();
-
-//   // If a message is received on the topic Kellen_esp32/output, you check if the message is either "on" or "off". 
-//   // Changes the output state according to the message
-//   if (String(topic) == sub_topic_1) {
-//     if(messageTemp == "on"){
-//       Serial.println("Turning LED on");
-//       digitalWrite(ledPin, HIGH);
-//     }
-//     else if(messageTemp == "off"){
-//       Serial.println("Turning LED off");
-//       digitalWrite(ledPin, LOW);
-//     }
-//   }
-// }
