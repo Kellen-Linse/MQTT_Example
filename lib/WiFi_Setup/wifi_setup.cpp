@@ -1,13 +1,11 @@
 #include "wifi_setup.h"
 #include "../../.cred/credentials.h"
 
-void setup_wifi() {
+void wifiSetup() {
   delay(10);
-  // We start by connecting to a WiFi network
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
-
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {

@@ -9,15 +9,19 @@ void setup() {
 
   // Initialize Serial Communications:
   Serial.begin(115200);
+
   // Initialize the LED and Button Pins:
   pinMode(ledPin, OUTPUT);
   pinMode(buttonPin, INPUT);
-
-  setup_wifi();
+  
+  // Initialize WiFi and MQTT
+  wifiSetup();
   mqttSetup();
 }
 
 void loop() {
+
+  // Loops
   mqttLoop();
   buttonLoop();
 }

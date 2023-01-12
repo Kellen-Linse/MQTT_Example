@@ -5,9 +5,9 @@
 #include <PubSubClient.h>
 #include <WiFi.h>
 #include "pin_definitions.h"
+#include "mqtt_data.h"
 
 // MQTT Server
-extern const char* mqtt_server;
 extern WiFiClient espClient;
 extern PubSubClient client;
 extern long lastMsg;

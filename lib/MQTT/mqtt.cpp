@@ -1,16 +1,18 @@
 #include "mqtt.h"
 
+// Variables
+
 WiFiClient espClient;
 PubSubClient client(espClient);
-
-const char* mqtt_server = "broker.mqttdashboard.com";
 long lastMsg = 0;
 char msg[50];
 int value = 0;
 
+// Functions 
+
 void mqttSetup(){
     // MQTT
-  client.setServer(mqtt_server, 1883);
+  client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
 }
 
@@ -34,37 +36,33 @@ void callback(char* topic, byte* message, unsigned int length) {
   }
   Serial.println();
 
-  // Feel free to add more if statements to control more GPIOs with MQTT
-
-  // If a message is received on the topic esp32/output, you check if the message is either "on" or "off". 
+  // If a message is received on the topic Kellen_esp32/output, you check if the message is either "on" or "off". 
   // Changes the output state according to the message
-  if (String(topic) == "Kellen_esp32/output") {
-    Serial.print("Changing output to ");
+  if (String(topic) == sub_topic_1) {
     if(messageTemp == "on"){
-      Serial.println("turning led on");
+      Serial.println("Turning LED on");
       digitalWrite(ledPin, HIGH);
     }
     else if(messageTemp == "off"){
-      Serial.println("turning led off");
+      Serial.println("Turning LED off");
       digitalWrite(ledPin, LOW);
     }
   }
 }
 
 void reconnect() {
-  // Loop until we're reconnected
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
+
     // Attempt to connect
-    if (client.connect("Kellen_ESP32")) {
-      Serial.println("connected");
-      
-      client.subscribe("Kellen_esp32/output"); // Subscribe
+    if (client.connect(clientID)) {
+      Serial.println("connected");     
+      client.subscribe(sub_topic_1); // Subscribe
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
+
       delay(5000);
     }
   }

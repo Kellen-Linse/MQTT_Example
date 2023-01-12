@@ -1,32 +1,29 @@
 #include "button.h"
 
-// Button & LED
-   int buttonState = LOW;  // variable for reading the pushbutton status
+// Variables
+  int buttonState = LOW;
 
-  // Variables for ensuring that the button is not pressed more than once within a second.
+  // These variables are for ensuring that the button 
+  // is not pressed more than once per second.
     bool buttonPressed = false;
+    int interval = 1000;
     long lastTime = 0;
 
 void buttonLoop(){
-    buttonState = digitalRead(buttonPin); // read the state of the pushbutton value.
+  buttonState = digitalRead(buttonPin); // Read the state of the pushbutton value.
   long timeNow = millis(); // Get the current time.
 
-  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+  // Check if the pushbutton is pressed. The buttonState is HIGH on pressed.
   if (buttonState == HIGH) {
-    // turn LED on:
-    // digitalWrite(ledPin, HIGH);
-
     if(!buttonPressed){
-      if(timeNow - lastTime > 1000){
+      if(timeNow - lastTime > interval){
         lastTime = millis();
-        Serial.println("Pressed");
-        client.publish("Kellen_esp32/test", "Button Pressed");
+        Serial.println("Btn 1 pressed");
+        client.publish(pub_topic_1, msg_topic_1);
         buttonPressed = true;
       }
     }   
   } else {
-    // turn LED off:
-    // digitalWrite(ledPin, LOW);
     buttonPressed = false;
   }
 }
