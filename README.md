@@ -9,3 +9,15 @@
 ## Libraries Used
 
 - **PubSubClient** by Nick O'Leary
+
+## Additional Files Needed:
+
+- credentials.h
+
+```C
+# pragma once
+
+// Wifi
+const char* ssid = "YOUR_SSID_HERE"; 
+const char* password = "YOUR_PASSWORD_HERE";
+```
