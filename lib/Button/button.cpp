@@ -9,6 +9,8 @@
     int interval = 1000;
     long lastTime = 0;
 
+// Handle checking on the button state and acting on that state 
+// This could be broken out and expanded as the project grows.
 void buttonLoop(){
   buttonState = digitalRead(buttonPin); // Read the state of the pushbutton value.
   long timeNow = millis(); // Get the current time.
