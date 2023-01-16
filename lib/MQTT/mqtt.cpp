@@ -6,10 +6,12 @@
 
 // Functions 
 
+// Initialize MQTT
 void mqttSetup(){
   connectAWS();
 }
 
+// Check the connection and run the MQTT client related code 
 void mqttLoop(){
   if (!client.connected()) {
     reconnect();
@@ -17,6 +19,10 @@ void mqttLoop(){
   client.loop();
 }
 
+// This function will be ran when we wish to publish a message
+// It will take data and turn it into a JSON doc prior to sending the 
+// data to the MQTT broker (AWS IoT)
+// This could be broken out and expanded as the programs complexity grows.
 void publishMessage(){
   StaticJsonDocument<200> doc;
   doc["time"] = millis();
@@ -29,6 +35,9 @@ void publishMessage(){
   client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
 }
 
+// This function handles incoming messages which are received in JSON format 
+// It first decodes the JSON, then acts depending on the incoming data.
+// This could be broken out and expanded as the programs complexity grows.
 void messageHandler(String &topic, String &payload) {
   Serial.println("INCOMING: " + topic + " - " + payload);
 
@@ -51,9 +60,10 @@ void messageHandler(String &topic, String &payload) {
   }
 }
 
-// 
+// Connect to AWS, this requires certifications set up in AWS IoT core prior to connecting
 void connectAWS(){
   // Configure WiFiClientSecure to use the AWS IoT device credentials
+  // These certs can be found in the "secrets.h" file. 
   net.setCACert(AWS_CERT_CA);
   net.setCertificate(AWS_CERT_CRT);
   net.setPrivateKey(AWS_CERT_PRIVATE);
@@ -83,6 +93,7 @@ void connectAWS(){
   delay(200);
 }
 
+// Handle reconnecting to the broker if the connection is lost
 void reconnect() {
   // Attempt to connect
   Serial.print("Attempting Reconnection to AWS IOT...\n");
