@@ -12,6 +12,7 @@
 ## Wiring Diagram for ESP32
 
 - Note the diagram does not show a built in LED so an external LED has been added for reference.
+- The built in LED is often on `GPIO2` or `GPIO13` check your boards layout or you can wire an LED as shown here.
 
 ![ESP32](./resources/ESP32.JPG)
 
