@@ -14,3 +14,7 @@
 - Note the diagram does not show a built in LED so an external LED has been added for reference.
 
 ![ESP32](./resources/ESP32.JPG)
+
+## Additional Files and Libraries
+
+- Please see the readme for each of the individual branches for additional files and libraries needed for this project.
